@@ -1,5 +1,3 @@
-import unittest
-
 
 class Node:
     def __init__(self, value):
@@ -25,5 +23,3 @@ class Stack:
             return value
         else:
             raise ValueError
-
-
