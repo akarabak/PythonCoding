@@ -2,6 +2,16 @@ import unittest
 import Tree
 
 
+class TestNode(unittest.TestCase):
+    def setUp(self):
+        self.node = Tree.Node(1)
+        self.node.left = Tree.Node(2)
+
+    def test_print(self):
+        print('hi')
+        print(self.node)
+
+
 class TestTree(unittest.TestCase):
     def setUp(self):
         self.tree = Tree.Tree()
@@ -28,3 +38,7 @@ class TestTree(unittest.TestCase):
         self.assertEqual(self.tree.common_ancestor(8, 11), 10)
         emptyTree = Tree.Tree()
         self.assertEqual(emptyTree.common_ancestor(8, 11), None)
+
+
+if __name__ == '__main__':
+    unittest.main()
