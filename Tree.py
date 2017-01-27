@@ -12,6 +12,19 @@ class Tree:
     def insert(self, value):
         self.root = Tree.__insert_into(self.root, value)
 
+    def common_ancestor(self, value1, value2):
+        start = self.root
+        while start:
+            if start.value > value1 and start.value > value2:
+                start = start.left
+            elif start.value < value1 and start.value < value2:
+                start = start.right
+            else:
+                return start.value
+
+        return None
+
+
     @staticmethod
     def __insert_into(root, value):
         if root is None:

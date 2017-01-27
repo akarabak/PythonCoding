@@ -22,3 +22,9 @@ class TestTree(unittest.TestCase):
 
     def test_max_brunch_sum(self):
         self.assertEqual(self.tree.test_max_brunch_sum(), 7)
+
+    def test_ancestor(self):
+        self.assertEqual(self.tree.common_ancestor(4, 8), 6)
+        self.assertEqual(self.tree.common_ancestor(8, 11), 10)
+        emptyTree = Tree.Tree()
+        self.assertEqual(emptyTree.common_ancestor(8, 11), None)
