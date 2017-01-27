@@ -13,6 +13,7 @@ class Tree:
         self.root = Tree.__insert_into(self.root, value)
 
     def common_ancestor(self, value1, value2):
+        """"Assumes both values are in the tree"""
         start = self.root
         while start:
             if start.value > value1 and start.value > value2:
