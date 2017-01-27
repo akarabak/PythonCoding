@@ -5,6 +5,16 @@ class Tree:
             self.left = None
             self.right = None
 
+        def rotate_left(self):
+            new_root = self.right
+            self.right = new_root.left
+            new_root.left = self
+
+        def rotate_right(self):
+            new_root = self.left
+            self.left = new_root.right
+            new_root.right = self
+
     def __init__(self):
         self.root = None
         self.sum = 0
