@@ -85,7 +85,6 @@ class Tree:
             Tree.print_at_depth(self.root, i) # 2O(logn)
             print()
 
-
     @staticmethod
     def print_at_depth(node: Node, depth: int):
         """Prints values of tree at given depth
