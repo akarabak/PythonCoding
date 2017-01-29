@@ -8,8 +8,7 @@ class TestNode(unittest.TestCase):
         self.node.left = Tree.Node(2)
 
     def test_print(self):
-        print('hi')
-        print(self.node)
+        self.assertEqual(str(self.node), '1')
 
 
 class TestTree(unittest.TestCase):
@@ -38,6 +37,9 @@ class TestTree(unittest.TestCase):
         self.assertEqual(self.tree.common_ancestor(8, 11), 10)
         emptyTree = Tree.Tree()
         self.assertEqual(emptyTree.common_ancestor(8, 11), None)
+
+    def test_level_order(self):
+        print(self.tree.level_order())
 
 
 if __name__ == '__main__':

@@ -15,21 +15,8 @@ class Node:
         self.left = new_root.right
         new_root.right = self
 
-    def bfs(self):
-        stack = [self]
-        while len(stack) > 0:
-            node = stack.pop()
-            if node.left is not None:
-                stack.append(node.left)
-            elif node.right is not None:
-                stack.append(node.right)
-
-        while len(stack) > 0:
-            print(stack.pop().value)
-
-
     def __str__(self):
-        return self.bfs()
+        return str(self.value)
 
 
 class Tree:
@@ -77,9 +64,41 @@ class Tree:
         return root
 
     def height(self):
-        return self.__height(self.root)
+        return Tree.__height(self.root)
 
-    def __height(self, root):
+    @staticmethod
+    def __height(root):
+        if not root:
+            return 0
+        else:
+            left = Tree.__height(root.left)
+            right = Tree.__height(root.right)
+            return max(left, right) + 1
+
+    def level_order(self):
+        """Prints all the nodes in level order"""
+        height = Tree.__height(self.root)
+        for i in range(height):
+            print("depth {}: ".format(i), end="")
+            Tree.print_at_level(self.root, i, 0)
+            print()
+
+    @staticmethod
+    def print_at_level(node: Node, level: int, current_height: int):
+        if not node:
+            return
+        if current_height == level:
+            print(node, "", end="")
+            return
+        current_height += 1
+        Tree.print_at_level(node.left, level, current_height)
+        Tree.print_at_level(node.right, level, current_height)
+
+    def max_brunch_sum(self):
+        self.__brunch_sum(self.root)
+        return self.sum
+
+    def __brunch_sum(self, root):
         if root is None:
             return 0
         else:
@@ -88,7 +107,3 @@ class Tree:
             if left + right + 1 > self.sum:
                 self.sum = left + right + 1
             return max(left, right) + 1
-
-    def test_max_brunch_sum(self):
-        self.__height(self.root)
-        return self.sum
