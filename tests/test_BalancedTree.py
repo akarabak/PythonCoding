@@ -2,7 +2,7 @@ import unittest
 import sys
 from io import StringIO
 
-import Tree
+import BalancedTree as Tree
 
 
 class TestNode(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestNode(unittest.TestCase):
 
 class TestTree(unittest.TestCase):
     def setUp(self):
-        self.tree = Tree.Tree()
+        self.tree = Tree.BalancedTree()
         self.tree.insert(1)
         self.tree.insert(6)
         self.tree.insert(5)
@@ -30,14 +30,14 @@ class TestTree(unittest.TestCase):
         self.tree.insert(11)
 
     def test_height(self):
-        self.assertEqual(self.tree.height(), 5)
+        self.assertEqual(self.tree.height(), 4)
 
     def test_max_brunch_sum(self):
         self.assertEqual(self.tree.max_brunch_sum(), 7)
 
     def test_ancestor(self):
         self.assertEqual(self.tree.common_ancestor(4, 8), 6)
-        self.assertEqual(self.tree.common_ancestor(8, 11), 10)
+        self.assertEqual(self.tree.common_ancestor(8, 11), 8)
         emptyTree = Tree.Tree()
         self.assertEqual(emptyTree.common_ancestor(8, 11), None)
 
@@ -48,11 +48,10 @@ class TestTree(unittest.TestCase):
         self.tree.level_order()
         sys.stdout = stdout
         self.tree.level_order()
-        answer = 'depth 0: 1 \n' +\
-                         'depth 1: 6 \n' +\
-                         'depth 2: 5 10 \n' +\
-                         'depth 3: 3 8 11 \n' +\
-                         'depth 4: 2 4 7 9 \n'
+        answer = 'depth 0: 6 \n' +\
+                         'depth 1: 3 8 \n' +\
+                         'depth 2: 2 5 7 10 \n' +\
+                         'depth 3: 1 4 9 11 \n'
         self.assertEqual(out.getvalue(), answer)
 
     def test_level_order_iterative(self):
@@ -61,11 +60,10 @@ class TestTree(unittest.TestCase):
         sys.stdout = out
         self.tree.level_order_iterative()
         sys.stdout = stdout
-        answer = 'depth 0: 1 \n' +\
-                         'depth 1: 6 \n' +\
-                         'depth 2: 5 10 \n' +\
-                         'depth 3: 3 8 11 \n' +\
-                         'depth 4: 2 4 7 9 \n'
+        answer = 'depth 0: 6 \n' +\
+                         'depth 1: 3 8 \n' +\
+                         'depth 2: 2 5 7 10 \n' +\
+                         'depth 3: 1 4 9 11 \n'
         self.assertEqual(out.getvalue(), answer)
 
 if __name__ == '__main__':

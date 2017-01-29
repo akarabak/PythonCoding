@@ -11,11 +11,13 @@ class Node:
         new_root = self.right
         self.right = new_root.left
         new_root.left = self
+        return new_root
 
     def rotate_right(self):
         new_root = self.left
         self.left = new_root.right
         new_root.right = self
+        return new_root
 
     def __str__(self):
         return str(self.value)
@@ -25,17 +27,6 @@ class Tree:
     def __init__(self):
         self.root = None
         self.sum = 0
-
-    def balance(self, node: Node):
-        if node is None:
-            return
-        self.balance(node.left)
-        self.balance(node.right)
-        factor = self.__height(node.left) - self.__height(node.right)
-        if factor > 2:
-            node.rotate_right()
-        elif factor < 2:
-            node.rotate_left()
 
     def insert(self, value):
         self.root = Tree.__insert_into(self.root, value)
@@ -53,50 +44,9 @@ class Tree:
 
         return None
 
-
-    @staticmethod
-    def __insert_into(root, value):
-        if root is None:
-            root = Node(value)
-        else:
-            if root.value > value:
-                root.left = Tree.__insert_into(root.left, value)
-            elif root.value < value:
-                root.right = Tree.__insert_into(root.right, value)
-        return root
-
     def height(self):
         """Height of tree by counting nodes, not edges"""
-        return Tree.__height(self.root)
-
-    @staticmethod
-    def __height(root):
-        if not root:
-            return 0
-        else:
-            left = Tree.__height(root.left)
-            right = Tree.__height(root.right)
-            return max(left, right) + 1
-
-    def level_order(self):
-        """Prints all the nodes in level order recursively. O(logn)^2 runtime"""
-        height = Tree.__height(self.root)
-        for i in range(height): # O(logn)
-            print("depth {}: ".format(i), end="")
-            Tree.print_at_depth(self.root, i) # 2O(logn)
-            print()
-
-    @staticmethod
-    def print_at_depth(node: Node, depth: int):
-        """Prints values of tree at given depth
-        Subtracts 1 from depth at each recursion, prints when reaches 0 (meaning reached the required depth)"""
-        if not node:
-            return
-        if depth == 0:
-            print(node, "", end="")
-            return
-        Tree.print_at_depth(node.left, depth - 1) #O(logn - 1)
-        Tree.print_at_depth(node.right, depth - 1) #O(logn - 1)
+        return Tree._height(self.root)
 
     def level_order_iterative(self):
         """Print all the nodes in level order iteratively. O(n) runtime"""
@@ -122,11 +72,52 @@ class Tree:
         return self.sum
 
     def __brunch_sum(self, root):
-        if root is None:
+        if not root:
             return 0
         else:
-            left = self.__height(root.left)
-            right = self.__height(root.right)
+            left = self.__brunch_sum(root.left)
+            right = self.__brunch_sum(root.right)
             if left + right + 1 > self.sum:
                 self.sum = left + right + 1
             return max(left, right) + 1
+
+    @staticmethod
+    def __insert_into(node, value):
+        if not node:
+            node = Node(value)
+        else:
+            if node.value > value:
+                node.left = Tree.__insert_into(node.left, value)
+            elif node.value < value:
+                node.right = Tree.__insert_into(node.right, value)
+
+        return node
+
+    @staticmethod
+    def _height(root):
+        if not root:
+            return 0
+        else:
+            left = Tree._height(root.left)
+            right = Tree._height(root.right)
+            return max(left, right) + 1
+
+    def level_order(self):
+        """Prints all the nodes in level order recursively. O(logn)^2 runtime"""
+        height = Tree._height(self.root)
+        for i in range(height): # O(logn)
+            print("depth {}: ".format(i), end="")
+            Tree.__print_at_depth(self.root, i) # 2O(logn)
+            print()
+
+    @staticmethod
+    def __print_at_depth(node: Node, depth: int):
+        """Prints values of tree at given depth
+        Subtracts 1 from depth at each recursion, prints when reaches 0 (meaning reached the required depth)"""
+        if not node:
+            return
+        if depth == 0:
+            print(node, "", end="")
+            return
+        Tree.__print_at_depth(node.left, depth - 1) #O(logn - 1)
+        Tree.__print_at_depth(node.right, depth - 1) #O(logn - 1)
