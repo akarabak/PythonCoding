@@ -1,3 +1,4 @@
+from collections import deque
 
 class Node:
     def __init__(self, value):
@@ -64,6 +65,7 @@ class Tree:
         return root
 
     def height(self):
+        """Height of tree by counting nodes, not edges"""
         return Tree.__height(self.root)
 
     @staticmethod
@@ -76,23 +78,44 @@ class Tree:
             return max(left, right) + 1
 
     def level_order(self):
-        """Prints all the nodes in level order"""
+        """Prints all the nodes in level order recursively. O(logn)^2 runtime"""
         height = Tree.__height(self.root)
-        for i in range(height):
+        for i in range(height): # O(logn)
             print("depth {}: ".format(i), end="")
-            Tree.print_at_level(self.root, i, 0)
+            Tree.print_at_depth(self.root, i) # 2O(logn)
             print()
 
+
     @staticmethod
-    def print_at_level(node: Node, level: int, current_height: int):
+    def print_at_depth(node: Node, depth: int):
+        """Prints values of tree at given depth
+        Subtracts 1 from depth at each recursion, prints when reaches 0 (meaning reached the required depth)"""
         if not node:
             return
-        if current_height == level:
+        if depth == 0:
             print(node, "", end="")
             return
-        current_height += 1
-        Tree.print_at_level(node.left, level, current_height)
-        Tree.print_at_level(node.right, level, current_height)
+        Tree.print_at_depth(node.left, depth - 1) #O(logn - 1)
+        Tree.print_at_depth(node.right, depth - 1) #O(logn - 1)
+
+    def level_order_iterative(self):
+        """Print all the nodes in level order iteratively. O(n) runtime"""
+        queue = deque()
+        queue.append(self.root)
+        depth = 0
+        while len(queue) > 0:
+            count_current_level = len(queue)
+            print('depth {}: '.format(depth), end="")
+            while count_current_level > 0:
+                count_current_level -= 1
+                node = queue.popleft()
+                print(node, "", end="")
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            print()
+            depth += 1
 
     def max_brunch_sum(self):
         self.__brunch_sum(self.root)

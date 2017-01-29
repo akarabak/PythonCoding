@@ -1,4 +1,7 @@
 import unittest
+import sys
+from io import StringIO
+
 import Tree
 
 
@@ -39,8 +42,30 @@ class TestTree(unittest.TestCase):
         self.assertEqual(emptyTree.common_ancestor(8, 11), None)
 
     def test_level_order(self):
-        print(self.tree.level_order())
+        stdout = sys.stdout
+        out = StringIO()
+        sys.stdout = out
+        self.tree.level_order()
+        sys.stdout = stdout
+        answer = 'depth 0: 1 \n' +\
+                         'depth 1: 6 \n' +\
+                         'depth 2: 5 10 \n' +\
+                         'depth 3: 3 8 11 \n' +\
+                         'depth 4: 2 4 7 9 \n'
+        self.assertEqual(out.getvalue(), answer)
 
+    def test_level_order_iterative(self):
+        stdout = sys.stdout
+        out = StringIO()
+        sys.stdout = out
+        self.tree.level_order_iterative()
+        sys.stdout = stdout
+        answer = 'depth 0: 1 \n' +\
+                         'depth 1: 6 \n' +\
+                         'depth 2: 5 10 \n' +\
+                         'depth 3: 3 8 11 \n' +\
+                         'depth 4: 2 4 7 9 \n'
+        self.assertEqual(out.getvalue(), answer)
 
 if __name__ == '__main__':
     unittest.main()
