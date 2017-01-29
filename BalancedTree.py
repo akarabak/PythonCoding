@@ -10,14 +10,16 @@ class BalancedTree(Tree):
 
     @staticmethod
     def __insert_into(node, value):
+        # returns with no changes if already there
         if not node:
             node = Node(value)
         else:
             if node.value > value:
                 node.left = BalancedTree.__insert_into(node.left, value)
+                node = BalancedTree.__balance(node)
             elif node.value < value:
                 node.right = BalancedTree.__insert_into(node.right, value)
-            node = BalancedTree.__balance(node)
+                node = BalancedTree.__balance(node)
 
         return node
 

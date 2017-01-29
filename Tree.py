@@ -31,6 +31,32 @@ class Tree:
     def insert(self, value):
         self.root = Tree.__insert_into(self.root, value)
 
+    def delete(self, value):
+        # todo
+        pass
+
+    def print_inorder(self):
+        Tree.__inorder(self.root)
+
+    @staticmethod
+    def __inorder(node):
+        if not node:
+            return
+        Tree.__inorder(node.left)
+        print(node, "", end="")
+        Tree.__inorder(node.right)
+
+    def print_postorder(self):
+        Tree.__postorder(self.root)
+
+    @staticmethod
+    def __postorder(node):
+        if not node:
+            return
+        Tree.__postorder(node.left)
+        Tree.__postorder(node.right)
+        print(node, "", end="")
+
     def common_ancestor(self, value1, value2):
         """"Assumes both values are in the tree"""
         start = self.root
@@ -83,6 +109,7 @@ class Tree:
 
     @staticmethod
     def __insert_into(node, value):
+        # returns with no changes if already there
         if not node:
             node = Node(value)
         else:

@@ -1,8 +1,20 @@
 import unittest
 import sys
 from io import StringIO
+from contextlib import contextmanager
 
 import Tree
+
+
+@contextmanager
+def captured_output():
+    stdout = sys.stdout
+    out = StringIO()
+    try:
+        sys.stdout = out
+        yield sys.stdout
+    finally:
+        sys.stdout = stdout
 
 
 class TestNode(unittest.TestCase):
@@ -42,12 +54,8 @@ class TestTree(unittest.TestCase):
         self.assertEqual(emptyTree.common_ancestor(8, 11), None)
 
     def test_level_order(self):
-        stdout = sys.stdout
-        out = StringIO()
-        sys.stdout = out
-        self.tree.level_order()
-        sys.stdout = stdout
-        self.tree.level_order()
+        with captured_output() as out:
+            self.tree.level_order()
         answer = 'depth 0: 1 \n' +\
                          'depth 1: 6 \n' +\
                          'depth 2: 5 10 \n' +\
@@ -56,17 +64,19 @@ class TestTree(unittest.TestCase):
         self.assertEqual(out.getvalue(), answer)
 
     def test_level_order_iterative(self):
-        stdout = sys.stdout
-        out = StringIO()
-        sys.stdout = out
-        self.tree.level_order_iterative()
-        sys.stdout = stdout
-        answer = 'depth 0: 1 \n' +\
-                         'depth 1: 6 \n' +\
-                         'depth 2: 5 10 \n' +\
-                         'depth 3: 3 8 11 \n' +\
-                         'depth 4: 2 4 7 9 \n'
+        answer = 'depth 0: 1 \n' + \
+                 'depth 1: 6 \n' + \
+                 'depth 2: 5 10 \n' + \
+                 'depth 3: 3 8 11 \n' + \
+                 'depth 4: 2 4 7 9 \n'
+        with captured_output() as out:
+            self.tree.level_order_iterative()
         self.assertEqual(out.getvalue(), answer)
+
+    def test_inorder(self):
+        with captured_output() as out:
+            self.tree.print_inorder()
+        self.assertEqual(out.getvalue(), "1 2 3 4 5 6 7 8 9 10 11 ")
 
 if __name__ == '__main__':
     unittest.main()
