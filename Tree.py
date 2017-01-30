@@ -20,6 +20,9 @@ class Node:
         return new_root
 
     def __str__(self):
+        return self.__repr__()
+
+    def __repr__(self):
         return str(self.value)
 
 
@@ -38,24 +41,39 @@ class Tree:
     def print_inorder(self):
         Tree.__inorder(self.root)
 
-    @staticmethod
-    def __inorder(node):
-        if not node:
-            return
-        Tree.__inorder(node.left)
-        print(node, "", end="")
-        Tree.__inorder(node.right)
+    def print_inorder_iterative(self):
+        node = self.root
+        stack = [self.root]
+        while len(stack) > 0:
+            if not node:
+                node = stack.pop()
+                print(node.value, "", end="")
+                node = node.right
+            else:
+                node = node.left
+            if node:
+                stack.append(node)
 
     def print_postorder(self):
         Tree.__postorder(self.root)
 
-    @staticmethod
-    def __postorder(node):
-        if not node:
-            return
-        Tree.__postorder(node.left)
-        Tree.__postorder(node.right)
-        print(node, "", end="")
+    def print_postorder_iterative(self):
+        node = self.root
+        stack = [self.root]
+        while len(stack) > 0:
+            if not(node.left and node.right):
+                print(node, "", end="")
+                node = stack.pop()
+            else:
+                if node.right:
+                    stack.append(node.right)
+                if node.left:
+                    stack.append(node.left)
+                if node.left:
+                    node = node.left
+                else:
+                    node = node.right
+
 
     def common_ancestor(self, value1, value2):
         """"Assumes both values are in the tree"""
@@ -148,3 +166,19 @@ class Tree:
             return
         Tree.__print_at_depth(node.left, depth - 1) #O(logn - 1)
         Tree.__print_at_depth(node.right, depth - 1) #O(logn - 1)
+
+    @staticmethod
+    def __postorder(node):
+        if not node:
+            return
+        Tree.__postorder(node.left)
+        Tree.__postorder(node.right)
+        print(node, "", end="")
+
+    @staticmethod
+    def __inorder(node):
+        if not node:
+            return
+        Tree.__inorder(node.left)
+        print(node, "", end="")
+        Tree.__inorder(node.right)

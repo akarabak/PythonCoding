@@ -71,12 +71,27 @@ class TestTree(unittest.TestCase):
                  'depth 4: 2 4 7 9 \n'
         with captured_output() as out:
             self.tree.level_order_iterative()
-        self.assertEqual(out.getvalue(), answer)
+        self.assertEqual(answer, out.getvalue())
 
     def test_inorder(self):
         with captured_output() as out:
             self.tree.print_inorder()
-        self.assertEqual(out.getvalue(), "1 2 3 4 5 6 7 8 9 10 11 ")
+        self.assertEqual("1 2 3 4 5 6 7 8 9 10 11 ", out.getvalue())
+
+    def test_inorder_iterative(self):
+        with captured_output() as out:
+            self.tree.print_inorder_iterative()
+        self.assertEqual("1 2 3 4 5 6 7 8 9 10 11 ", out.getvalue())
+
+    def test_postorder(self):
+        with captured_output() as out:
+            self.tree.print_postorder()
+        self.assertEqual("2 4 3 5 7 9 8 11 10 6 1 ", out.getvalue())
+
+    def test_postorder_iterative(self):
+        with captured_output() as out:
+            self.tree.print_postorder_iterative()
+        self.assertEqual("2 4 3 5 7 9 8 11 10 6 1 ", out.getvalue())
 
 if __name__ == '__main__':
     unittest.main()
