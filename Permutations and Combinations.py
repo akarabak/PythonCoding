@@ -17,11 +17,10 @@ def permutations(available: str, perm: str=''):
         print(perm)
         return
     for i in range(len(available)):
-        perm += available[i]
+        c = available[i]
         available = available[:i] + available[i+1:]
-        permutations(available, perm)
-        available += perm[-1]
-        perm = perm[:-1]
+        permutations(available, perm + c)
+        available += c
 
 
 def combinations(comb: [str], available: [str]):
