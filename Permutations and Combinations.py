@@ -12,14 +12,14 @@ def pascal(rows):
         print()
 
 
-def permutations(perm: str, available: str):
+def permutations(available: str, perm: str=''):
     if len(available) == 0:
         print(perm)
         return
     for i in range(len(available)):
         perm += available[i]
         available = available[:i] + available[i+1:]
-        permutations(perm, available)
+        permutations(available, perm)
         available += perm[-1]
         perm = perm[:-1]
 
@@ -28,5 +28,5 @@ def combinations(comb: [str], available: [str]):
     pass
 
 if __name__ == '__main__':
-    permutations('', 'abc')
+    permutations('abc')
     #pascal(5)
