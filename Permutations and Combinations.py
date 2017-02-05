@@ -23,9 +23,22 @@ def permutations(available: str, perm: str=''):
         available += c
 
 
-def combinations(comb: [str], available: [str]):
-    pass
+def combinations_wrapper(word: str):
+    for i in range(len(word)):
+        combinations(word[i:])
+
+
+def combinations(available: str, comb: str=''):
+    if len(comb) > 0:
+        print(comb)
+    if len(available) == 0:
+        return
+    else:
+        comb += available[0]
+        combinations(available[1:], comb)
+        comb = comb[:-1]
 
 if __name__ == '__main__':
-    permutations('abc')
+    #permutations('abc')
+    combinations_wrapper('abc')
     #pascal(5)
