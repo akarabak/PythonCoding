@@ -28,17 +28,21 @@ def combinations_wrapper(word: str):
         combinations(word[i:])
 
 
-def combinations(available: str, comb: str=''):
-    if len(comb) > 0:
+def combinations(available: str, comb: str='', length=0):
+    if length > 0 and len(comb) == length:
+        print(comb)
+    elif length == 0 and len(available) == 0:
         print(comb)
     if len(available) == 0:
         return
-    else:
-        comb += available[0]
-        combinations(available[1:], comb)
+    for i in range(len(available)):
+        comb += available[i]
+        combinations(available[i+1:], comb, length)
         comb = comb[:-1]
 
 if __name__ == '__main__':
-    #permutations('abc')
-    combinations_wrapper('abc')
+    print('Permutations of abc:')
+    permutations('abc')
+    print('Combinations of abc:')
+    combinations('abc')
     #pascal(5)
