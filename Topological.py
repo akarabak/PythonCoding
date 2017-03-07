@@ -36,16 +36,17 @@ def topological_sort(graph):
 
 
 def topological_sort2(graph):
+    # stores incoming edges for each vertex
     count = defaultdict(int)
     for v in graph:
         if v not in count:
             count[v] = 0
         for e in graph[v]:
             count[e] += 1
-    ready = []
-    for e in count:
-        if count[e] == 0:
-            ready.append(e)
+
+    # stores vertices with no incoming edges
+    ready = [v for v in count if count[v] == 0]
+
     output = []
     while len(ready) != 0:
         value = ready.pop()
