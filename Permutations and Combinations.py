@@ -1,5 +1,3 @@
-
-
 def pascal(rows):
     for i in range(rows):
         coef = 1
@@ -40,9 +38,42 @@ def combinations(available: str, comb: str='', length=0):
         combinations(available[i+1:], comb, length)
         comb = comb[:-1]
 
+
+class Telephone:
+    number_pad = [
+        ['0'],
+        ['1'],
+        ['a','b','c'],
+        ['d','e','f'],
+        ['g','h','i'],
+        ['j','k','l'],
+        ['m','n','o'],
+        ['p','q','r', 's'],
+        ['t','u','v'],
+        ['w','x','y','z']
+    ]
+    def __init__(self, phone):
+        self.phone = list(phone)
+
+    def print(self):
+        word = [j for j in self.phone]
+        self.print_word(word, 0)
+
+    def print_word(self, word, position):
+        if len(word) == position:
+            print(''.join(word))
+            return
+        current_num = int(self.phone[position])
+        for l in Telephone.number_pad[current_num]:
+            word[position] = l
+            self.print_word(word, position + 1)
+
+
 if __name__ == '__main__':
     print('Permutations of abc:')
     permutations('abc')
     print('Combinations of abc:')
     combinations('abc')
+    print('Phones:')
+    Telephone('8182573553').print()
     #pascal(5)
