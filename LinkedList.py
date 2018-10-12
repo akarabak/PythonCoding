@@ -19,10 +19,23 @@ class LinkedList:
             start = start.next
 
     def __eq__(self, right):
-        for i, j in self, right:
+        for i, j in zip(self, right):
             if i != j:
                 return False
         return True
+
+    def get_middle(self):
+        start = self.head
+        slow = self.head
+        counter = 0
+        while start:
+            start = start.next
+            if counter == 2:
+                counter = 0
+                slow = slow.next
+            counter += 1
+
+        return slow.value
 
     def add(self, value):
         start = self.head
@@ -47,6 +60,12 @@ class LinkedList:
     def __len__(self):
         return self.size
 
+    def __str__(self):
+        result = ''
+        for i in self:
+            result += str(i) + ' '
+        return result
+
     def remove(self, index):
         if index >= self.size:
             raise ValueError('Index({}) out of range'.format(index))
@@ -60,3 +79,20 @@ class LinkedList:
                 i += 1
                 start = start.next
             start.next = start.next.next
+
+    def reverse(self):
+        stack = []
+        start = self.head
+        while start:
+            stack.append(start)
+            start = start.next
+
+        current = None
+        for i, e in enumerate(reversed(stack)):
+            if i == 0:
+                self.head = e
+                current = self.head
+            else:
+                current.next = e
+                current = current.next
+        current.next = None

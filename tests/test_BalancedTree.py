@@ -3,6 +3,7 @@ import unittest
 from tests.test_Tree import TestTree, captured_output, TestNode
 import BalancedTree as Tree
 
+
 class TestBalancedTree(TestTree):
     """"Runs test of base class. Overrides some tests due to tree balancing"""
     def setUp(self):

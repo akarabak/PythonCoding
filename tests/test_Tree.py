@@ -1,20 +1,6 @@
 import unittest
-import sys
-from io import StringIO
-from contextlib import contextmanager
-
+from tests.test_utils import captured_output
 import Tree
-
-
-@contextmanager
-def captured_output():
-    stdout = sys.stdout
-    out = StringIO()
-    try:
-        sys.stdout = out
-        yield sys.stdout
-    finally:
-        sys.stdout = stdout
 
 
 class TestNode(unittest.TestCase):
@@ -92,6 +78,7 @@ class TestTree(unittest.TestCase):
         with captured_output() as out:
             self.tree.print_postorder_iterative()
         self.assertEqual("2 4 3 5 7 9 8 11 10 6 1 ", out.getvalue())
+
 
 if __name__ == '__main__':
     unittest.main()
